@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div class="main">
+        <a href="{% url 'leads:list_lead' %}">Go back to leads list</a>
+
+        <h1>first name: {{ lead.first_name }}</h1>
+        <h1>last name: {{ lead.last_name }}</h1>
+        <h1>age: {{ lead.age }}</h1>
+
+        <a href="{% url 'leads:update_lead' id=lead.id %}">Update lead</a>
+        <a href="{% url 'leads:delete_lead' id=lead.id %}">delete</a>
+    </div>
+
+{% endblock content %}
