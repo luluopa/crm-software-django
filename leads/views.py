@@ -1,64 +1,70 @@
-from django.shortcuts import render, redirect
-from django.shortcuts import HttpResponse
+from django.db.models import query
+from django.db.models.query import QuerySet
+from django.shortcuts import render, redirect, HttpResponse, reverse
+from django.views.generic.base import TemplateView
 from leads.models import Agent, Lead
-from leads.forms import LeadForm
+from leads.forms import LeadForm, CustomUserModelForm
+from agents.mixins import LoginOrganiserRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-def landing_page(request):
-    return render(request, 'landing.html', {})
+from django.views import generic
 
-def list_all_leads(request):
-    leads = Lead.objects.all()
+class UserCreateClassView(generic.CreateView):
+    template_name = 'registration/singup.html'
+    form_class = CustomUserModelForm
 
-    context = {
-        'leads':leads
-    }
+    def get_success_url(self):
+        return reverse('leads:list_lead')
 
-    return render(request, 'leads/list_lead.html', context)
+class LandingPageClassView(generic.TemplateView):
+    template_name = 'landing.html'
 
-def detail_lead(request, id):
-    lead = Lead.objects.get(id=id)
+class ListLeadsClassView(LoginRequiredMixin, generic.ListView):
+    template_name = 'leads/list_lead.html'
+    context_object_name = 'leads'
 
-    context = {
-        'lead':lead
-    }
+    def get_queryset(self):
+        user = self.request.user
 
-    return render(request, 'leads/detail_lead.html', context)
+        if (user.is_organisor):
+            queryset = Lead.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            queryset = Lead.objects.filter(agent__user=user)
+        return queryset
 
-def create_lead(request):
-    lead_form_instance = LeadForm()
+class CreateLeadsClassView(LoginOrganiserRequiredMixin, generic.CreateView):
+    template_name = 'leads/create_lead.html'
+    form_class = LeadForm
 
-    if request.method == 'POST':
-        lead_form_instance = LeadForm(request.POST)
+    def get_success_url(self):
+        return reverse('leads:list_lead')
 
-        if lead_form_instance.is_valid():
-            lead_form_instance.save()
-            return redirect('/leads')
+class DetailLeadClassView(LoginRequiredMixin, generic.DetailView):
+    template_name = 'leads/detail_lead.html'
+    context_object_name = 'lead'
 
-    context = {
-        'form':lead_form_instance
-    }
-    
-    return render(request, 'leads/create_lead.html', context)
+    def get_queryset(self):
+        user = self.request.user
 
-def update_lead(request, id):
-    lead_instance = Lead.objects.get(id=id)
-    lead_form_instance = LeadForm(instance=lead_instance)
+        if (user.is_organisor):
+            queryset = Lead.objects.filter(organisation=user.userprofile)
+        else:
+            queryset = Lead.objects.filter(organisation=user.agent.organisation)
+            queryset = Lead.objects.filter(agent__user=user)
+        return queryset
 
-    if request.method == 'POST':
-        lead_form_instance = LeadForm(request.POST, instance=lead_instance)
+class UpdateLeadClassView(LoginOrganiserRequiredMixin, generic.UpdateView):
+    template_name = 'leads/update_lead.html'
+    form_class = LeadForm
+    queryset = Lead.objects.all()
 
-        if lead_form_instance.is_valid():
-            lead_form_instance.save()
-            return redirect('/leads')
+    def get_success_url(self):
+        return reverse('leads:list_lead')
 
-    context = {
-        'form':lead_form_instance,
-        'lead':lead_instance
-    }
-    
-    return render(request, 'leads/update_lead.html', context)
+class DeleteLeadClassView(LoginOrganiserRequiredMixin, generic.DeleteView):
+    queryset = Lead.objects.all()
+    template_name = 'leads/lead_delete.html'
 
-def delete_lead(request, id):
-    lead_instance = Lead.objects.get(id=id)
-    lead_instance.delete()
-    return redirect('/leads')
+    def get_success_url(self):
+        return reverse('leads:list_lead')

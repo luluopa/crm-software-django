@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'leads'
+    'leads',
+    'agents'
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'statics')
+]
+STATIC_ROOT = 'static_root'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -129,3 +134,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # setting user custom model
 
 AUTH_USER_MODEL = 'leads.User'
+
+# redirect settings
+
+LOGIN_REDIRECT_URL = '/leads/'
+LOGOUT_REDIRECT_URL = '/login/'
