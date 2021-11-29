@@ -1,3 +1,4 @@
+import random
 from django.shortcuts import render, reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,7 +12,6 @@ class AgentListView(LoginOrganiserRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         organisation = self.request.user.userprofile
-        print(Agent.objects.filter(organisation=organisation))
         return Agent.objects.filter(organisation=organisation)
 
 class AgentCreateView(LoginOrganiserRequiredMixin, generic.CreateView):
@@ -22,9 +22,17 @@ class AgentCreateView(LoginOrganiserRequiredMixin, generic.CreateView):
         return reverse('agents:agent_list')
 
     def form_valid(self, form):
-        agent = form.save(commit=False)
-        agent.organisation = self.request.user.userprofile
-        agent.save()
+        user = form.save(commit=False)
+        user.is_organisor = False
+        user.is_agent = True
+        user.set_password(f"{random.randint(0,10000000)}")
+        user.save()
+
+        Agent.objects.create(
+            user=user,
+            organisation=self.request.user.userprofile
+        )
+
         return super(AgentCreateView, self).form_valid(form)
 
 class AgentUpdateView(LoginOrganiserRequiredMixin, generic.UpdateView):
