@@ -139,3 +139,7 @@ AUTH_USER_MODEL = 'leads.User'
 
 LOGIN_REDIRECT_URL = '/leads/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+# email configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

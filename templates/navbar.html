@@ -7,14 +7,14 @@
         <span class="ml-3 text-xl">CRMtool</span>
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-        <a href="{% url 'leads:list_lead' %}" class="mr-5 hover:text-gray-900">Leads</a>
         {% if not request.user.is_authenticated %}
             <a href="{% url 'singup' %}" class="mr-5 hover:text-gray-900">SingUp</a>
         {% else %}
-        {% if not request.user.is_agent %}
-            <a href="{% url 'agents:agent_list' %}" class="mr-5 hover:text-gray-900">Agents</a>
-        {% endif %}
-            Logged as: {{ request.user.username }}
+            <a href="{% url 'leads:list_lead' %}" class="mr-5 hover:text-gray-900">Leads</a>
+            {% if not request.user.is_agent %}
+                <a href="{% url 'agents:agent_list' %}" class="mr-5 hover:text-gray-900">Agents</a>
+            {% endif %}
+                Logged as: {{ request.user.username }}
         {% endif %}
         </nav>
         {% if not request.user.is_authenticated %}

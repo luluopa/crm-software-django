@@ -20,6 +20,7 @@ class Lead(models.Model):
 
     organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     agent = models.ForeignKey('Agent', blank=True, null=True, on_delete=models.SET_NULL) #Cascade means when agent is deleted leads is deleted too
+    category = models.ForeignKey('Category', blank=True, null=True, on_delete=models.SET_NULL)
 
 class Agent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -27,6 +28,12 @@ class Agent(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Category(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
 
 def post_created_user_profile(instance, created, **kwargs):
     if created:
