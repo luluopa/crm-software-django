@@ -10,21 +10,24 @@
         <h2 class="text-sm title-font text-gray-500 tracking-widest">LEAD</h2>
         <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ lead.first_name }} {{ lead.last_name }} </h1>
         <div class="flex mb-4">
-            <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Detail</a>
-            <a href="{% url 'leads:update_category' pk=lead.id %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Category</a>
+            <a href="{% url 'leads:detail_lead' pk=lead.id %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Detail</a>
+            <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Category</a>
             {% if request.user.is_organisor %}
                 <a href="{% url 'leads:update_lead' pk=lead.id %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Update</a>
             {% endif %}
         </div>
         <div class="main">
     
-            <h1>first name: {{ lead.first_name }}</h1>
-            <h1>last name: {{ lead.last_name }}</h1>
-            <h1>age: {{ lead.age }}</h1>
-
-            {% if request.user.is_organisor %}
-                <a class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded" href="{% url 'leads:delete_lead' pk=lead.id %}">delete</a>
-            {% endif %}
+            <h1>Update lead {{lead.first_name}} category</h1>
+        
+                <form method="POST">
+        
+                    {% csrf_token %}
+                    {{ form.as_p }}
+        
+                    <input class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded" type="submit">
+        
+                </form>
         
         </div>
         </div>
