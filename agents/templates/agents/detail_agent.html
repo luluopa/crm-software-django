@@ -3,9 +3,7 @@
 
 {% block content %}
 
-<section class="text-gray-600 body-font overflow-hidden">
-    <div class="container px-5 py-24 mx-auto">
-    <div class="lg:w-4/5 mx-auto flex flex-wrap">
+<div class="main max-w-lg mx-auto"> 
         <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
         <h2 class="text-sm title-font text-gray-500 tracking-widest">AGENT</h2>
         <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ agent.user.email }} </h1>
@@ -22,9 +20,7 @@
             <a class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded" href="{% url 'agents:agent_delete' pk=agent.id %}">delete</a>
         </div>
         </div>
-        <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">
     </div>
-    </div>
-    </section>
+</section>
 
 {% endblock content %}

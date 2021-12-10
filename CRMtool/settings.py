@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # third parties apps
+    'crispy_forms',
+    'crispy_tailwind',
+    # local apps
     'leads',
     'agents'
 ]
@@ -143,3 +147,8 @@ LOGOUT_REDIRECT_URL = '/login/'
 # email configuration
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#crispy config
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = 'tailwind'
