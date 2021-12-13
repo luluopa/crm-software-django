@@ -9,7 +9,7 @@ class LeadForm(forms.ModelForm):
     
     class Meta:
         model = Lead
-        fields = ('first_name', 'last_name', 'age', 'agent')
+        fields = ('first_name', 'last_name', 'age', 'agent', 'phone_number')
 
 class CustomUserModelForm(UserCreationForm):
 

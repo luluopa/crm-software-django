@@ -4,23 +4,22 @@
 {% block content %}
 
 <div class="main max-w-lg mx-auto"> 
-            <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+            <div class="w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
             <h2 class="text-sm title-font text-gray-500 tracking-widest">AGENT</h2>
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ agent.email }} </h1>
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4"> {{ user.email }} </h1>
             <div class="flex mb-4">
-                <a href="{% url 'agents:agent_detail' pk=agent.id %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Detail</a>
-                <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Reviews</a>
-                <a href="{% url 'agents:agent_update' pk=agent.id %}" class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Update</a>
+                <a href="{% url 'agents:agent_detail' pk=user.agent.id %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Detail</a>
+                <a href="{% url 'agents:agent_update' pk=user.agent.id %}" class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Update</a>
             </div>
             <div class="main">
-                <h1>Update agent {{agent.email}}</h1>
+                <h1>Update agent {{ user.email }}</h1>
         
                 <form method="POST">
         
                     {% csrf_token %}
                     {{ form|crispy }}
         
-                    <input class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded" type="submit">
+                    <button class="flex ml-auto text-white bg-purple-500 border-0 py-2 px-6 focus:outline-none hover:bg-purple-600 rounded">Submit</button>
         
                 </form>
         

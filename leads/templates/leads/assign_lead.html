@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
+{% load tailwind_filters %}
 
 {% block content %}
+
+<div class="main max-w-lg mx-auto">
  
     <h1>Assign an agent for this lead</h1>
 
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
 
-        <button>Submit</button>
+        <button class="w-full text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-md">Submit</button>
     </form>
+</div>
 
 {% endblock content %}

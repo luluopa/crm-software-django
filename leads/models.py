@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
+import datetime
 
 class User(AbstractUser):
     is_organisor = models.BooleanField(default=True)
@@ -14,9 +15,12 @@ class UserProfile(models.Model):
 
 
 class Lead(models.Model):
+
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     age = models.IntegerField(default=0)
+    phone_number = models.CharField(blank=True, null=True, max_length=15)
+    data_created = models.DateField(auto_now_add=True)
 
     organisation = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     agent = models.ForeignKey('Agent', blank=True, null=True, on_delete=models.SET_NULL) #Cascade means when agent is deleted leads is deleted too
