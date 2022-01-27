@@ -17,3 +17,17 @@ mixins)
 
 ### `User Screen`
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/56770452/151399203-e82aaffa-8425-4b71-816f-05ab4897e8d6.gif)
+
+
+### Installation 
+
+```md
+python -m virtualenv djangoenv
+source ./djangoenv/bin/activate
+python -m pip install -r ./CRMtool/requirements.txt
+```
+### `In CRMtool folder`
+```md
+python manage.py runserver
+```
+
