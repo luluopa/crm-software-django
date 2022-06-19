@@ -18,7 +18,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 READ_OR_NOT_ENV = env.bool('READ_OR_NOT_ENV', default=True)
 
 if READ_OR_NOT_ENV:
-    environ.Env.read_env(os.path.join(os.path.join(BASE_DIR, 'CRMtool'), '.env'))
+    environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # False if not in os.environ because of casting above
 DEBUG = env('DEBUG')
@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'CRMtool.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASS'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT')
     }
 }
 
